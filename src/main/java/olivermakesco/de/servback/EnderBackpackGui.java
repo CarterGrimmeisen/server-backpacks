@@ -8,15 +8,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 public class EnderBackpackGui extends SimpleGui {
-    public EnderBackpackGui(ServerPlayerEntity player) {
-        super(ScreenHandlerType.GENERIC_9X3, player, false);
-        setTitle(Text.of("Ender Backpack"));
-        fillChest();
-        open();
-    }
-    public void fillChest() {
-        EnderChestInventory inventory = player.getEnderChestInventory();
-        for (int i = 0; i < 27; i++)
-            setSlotRedirect(i,new Slot(inventory,i,i,0));
-    }
+  public EnderBackpackGui(ServerPlayerEntity player) {
+    super(ScreenHandlerType.GENERIC_9X3, player, false);
+    setTitle(Text.of("Ender Backpack"));
+    fillChest();
+    open();
+  }
+
+  public void fillChest() {
+    EnderChestInventory inventory = player.getEnderChestInventory();
+    for (int i = 0; i < 27; i++)
+      setSlotRedirect(i, new Slot(inventory, i, i, 0));
+  }
 }

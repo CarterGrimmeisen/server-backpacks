@@ -1,12 +1,12 @@
 {
   "type": "minecraft:smithing",
   "base": {
-    "item": "serverbackpacks:small"
+    "item": "serverbackpacks:tiny"
   },
   "addition": {
     "item": "minecraft:iron_ingot"
   },
   "result": {
-    "item": "serverbackpacks:medium"
+    "item": "serverbackpacks:normal"
   }
 }

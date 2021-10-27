@@ -23,62 +23,69 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 public class Entrypoint implements ModInitializer {
-	@Override
-	public void onInitialize() {
-		for (String s : backpacks.keySet()) {
-			int i = backpacks.get(s);
-			Identifier id = new Identifier("serverbackpacks",s);
-			Item item = new BackpackItem(new FabricItemSettings(), i);
-			Registry.register(Registry.ITEM,id,item);
-		}
-		Registry.register(Registry.ITEM,new Identifier("serverbackpacks","ender"), new EnderBackpackItem(new FabricItemSettings()));
-		Registry.register(Registry.ITEM,new Identifier("serverbackpacks","global"), new GlobalBackpackItem(new FabricItemSettings()));
-
-		ServerLifecycleEvents.SERVER_STARTING.register((s) -> {
-			server = s;
-			loadGlobal();
-		});
-		ServerLifecycleEvents.SERVER_STOPPING.register((s) -> {
-			saveGlobal();
-		});
-	}
-	public static void loadGlobal() {
-		try {
-			Path savePath = server.getSavePath(WorldSavePath.ROOT);
-			InputStream in = new FileInputStream(savePath.toString() + "/backpacks_global_inv.nbt");
-			NbtCompound nbt = NbtIo.readCompressed(in);
-			DefaultedList<ItemStack> inv = DefaultedList.ofSize(27,ItemStack.EMPTY);
-			Inventories.readNbt(nbt,inv);
-			globalInventory = inv.toArray(ItemStack[]::new);
-		} catch (Exception ignored) {}
-	}
-	public static void saveGlobal() {
-		try {
-			Path savePath = server.getSavePath(WorldSavePath.ROOT);
-			OutputStream out = new FileOutputStream(savePath.toString() + "/backpacks_global_inv.nbt");
-			DefaultedList<ItemStack> inv = DefaultedList.ofSize(27,ItemStack.EMPTY);
-			for (int i = 0; i < 27; i++) {
-				ItemStack stack = globalInventory[i];
-				if (stack == null) stack = ItemStack.EMPTY;
-				inv.set(i,stack);
-			}
-			NbtCompound invNbt = Inventories.writeNbt(new NbtCompound(), inv,true);
-			NbtIo.writeCompressed(invNbt,out);
-		} catch (Exception ignored) {}
-	}
-
-    public static Inventory getInventory() {
-        return new SimpleInventory(globalInventory);
+  @Override
+  public void onInitialize() {
+    for (String s : backpacks.keySet()) {
+      int i = backpacks.get(s);
+      Identifier id = new Identifier("serverbackpacks", s);
+      Item item = new BackpackItem(new FabricItemSettings(), i);
+      Registry.register(Registry.ITEM, id, item);
     }
+    Registry.register(Registry.ITEM, new Identifier("serverbackpacks", "ender"),
+        new EnderBackpackItem(new FabricItemSettings()));
+    Registry.register(Registry.ITEM, new Identifier("serverbackpacks", "global"),
+        new GlobalBackpackItem(new FabricItemSettings()));
 
-	public static MinecraftServer server;
-	public static ItemStack[] globalInventory = new ItemStack[27];
+    ServerLifecycleEvents.SERVER_STARTING.register((s) -> {
+      server = s;
+      loadGlobal();
+    });
+    ServerLifecycleEvents.SERVER_STOPPING.register((s) -> {
+      saveGlobal();
+    });
+  }
 
-	public static HashMap<String, Integer> backpacks;
-	static {
-		backpacks = new HashMap<>();
-		backpacks.put("small" ,  9);
-		backpacks.put("medium", 18);
-		backpacks.put("large" , 27);
-	}
+  public static void loadGlobal() {
+    try {
+      Path savePath = server.getSavePath(WorldSavePath.ROOT);
+      InputStream in = new FileInputStream(savePath.toString() + "/backpacks_global_inv.nbt");
+      NbtCompound nbt = NbtIo.readCompressed(in);
+      DefaultedList<ItemStack> inv = DefaultedList.ofSize(27, ItemStack.EMPTY);
+      Inventories.readNbt(nbt, inv);
+      globalInventory = inv.toArray(ItemStack[]::new);
+    } catch (Exception ignored) {
+    }
+  }
+
+  public static void saveGlobal() {
+    try {
+      Path savePath = server.getSavePath(WorldSavePath.ROOT);
+      OutputStream out = new FileOutputStream(savePath.toString() + "/backpacks_global_inv.nbt");
+      DefaultedList<ItemStack> inv = DefaultedList.ofSize(27, ItemStack.EMPTY);
+      for (int i = 0; i < 27; i++) {
+        ItemStack stack = globalInventory[i];
+        if (stack == null)
+          stack = ItemStack.EMPTY;
+        inv.set(i, stack);
+      }
+      NbtCompound invNbt = Inventories.writeNbt(new NbtCompound(), inv, true);
+      NbtIo.writeCompressed(invNbt, out);
+    } catch (Exception ignored) {
+    }
+  }
+
+  public static Inventory getInventory() {
+    return new SimpleInventory(globalInventory);
+  }
+
+  public static MinecraftServer server;
+  public static ItemStack[] globalInventory = new ItemStack[27];
+
+  public static HashMap<String, Integer> backpacks;
+  static {
+    backpacks = new HashMap<>();
+    backpacks.put("tiny", 5);
+    backpacks.put("normal", 9);
+    backpacks.put("large", 18);
+  }
 }

@@ -22,61 +22,57 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 
 public class BackpackGui extends SimpleGui {
-    public final int slots;
-    public ItemStack stack;
-    public Inventory inventory;
+  public final int slots;
+  public ItemStack stack;
+  public Inventory inventory;
 
-    public BackpackGui(ServerPlayerEntity player, int slots, ItemStack stack) {
-        super(
-                getHandler(slots),
-                player, false
-        );
-        open();
-        this.slots = slots;
-        this.stack = stack;
-        setTitle(stack.getName());
-        NbtCompound nbt = stack.getOrCreateSubNbt("inventory");
-        DefaultedList<ItemStack> list = DefaultedList.ofSize(slots+1, ItemStack.EMPTY);
-        list.set(slots,stack);
-        Inventories.readNbt(nbt,list);
-        inventory = new SimpleInventory(list.toArray(ItemStack[]::new));
-        fillChest();
-        for (int i = 0; i < 9; i++) {
-            ItemStack invStack = player.getInventory().getStack(i);
-            if (invStack.equals(stack)) {
-                screenHandler.setSlot(slots+27+i, new NopSlot(inventory,slots,slots,0));
-            }
-        }
+  public BackpackGui(ServerPlayerEntity player, int slots, ItemStack stack) {
+    super(getHandler(slots), player, false);
+    open();
+    this.slots = slots;
+    this.stack = stack;
+    setTitle(stack.getName());
+    NbtCompound nbt = stack.getOrCreateNbt();
+    DefaultedList<ItemStack> list = DefaultedList.ofSize(slots + 1, ItemStack.EMPTY);
+    list.set(slots, stack);
+    Inventories.readNbt(nbt, list);
+    inventory = new SimpleInventory(list.toArray(ItemStack[]::new));
+    fillChest();
+    for (int i = 0; i < 9; i++) {
+      ItemStack invStack = player.getInventory().getStack(i);
+      if (invStack.equals(stack)) {
+        screenHandler.setSlot(slots + 27 + i, new NopSlot(inventory, slots, slots, 0));
+      }
     }
+  }
 
-    public static ScreenHandlerType<?> getHandler(int slots) {
-        return switch (slots/9) {
-            case 1 -> ScreenHandlerType.GENERIC_9X1;
-            case 2 -> ScreenHandlerType.GENERIC_9X2;
-            case 3 -> ScreenHandlerType.GENERIC_9X3;
-            default -> null;
-        };
-    }
+  public static ScreenHandlerType<?> getHandler(int slots) {
+    return switch (slots) {
+    case 5 -> ScreenHandlerType.HOPPER;
+    case 9 -> ScreenHandlerType.GENERIC_3X3;
+    case 18 -> ScreenHandlerType.GENERIC_9X2;
+    default -> null;
+    };
+  }
 
-    public void fillChest() {
-        for (int i = 0; i < slots; i++)
-            setSlotRedirect(i, new BackpackSlot(inventory,i,i,0));
-    }
+  public void fillChest() {
+    for (int i = 0; i < slots; i++)
+      setSlotRedirect(i, new BackpackSlot(inventory, i, i, 0));
+  }
 
-    public void saveMain() {
-        DefaultedList<ItemStack> inv = DefaultedList.ofSize(slots,ItemStack.EMPTY);
-        for (int i = 0; i < slots; i++) {
-            ItemStack stack = getSlotRedirect(i).getStack();
-            inv.set(i,stack);
-        }
-        NbtCompound invNbt = Inventories.writeNbt(new NbtCompound(), inv);
-        NbtCompound root = stack.getNbt();
-        root.put("inventory", invNbt);
-        stack.setNbt(root);
+  public void saveMain() {
+    DefaultedList<ItemStack> inv = DefaultedList.ofSize(slots, ItemStack.EMPTY);
+    for (int i = 0; i < slots; i++) {
+      ItemStack stack = getSlotRedirect(i).getStack();
+      inv.set(i, stack);
     }
+    NbtCompound root = stack.getNbt();
+    NbtCompound newNbt = Inventories.writeNbt(root, inv);
+    stack.setNbt(newNbt);
+  }
 
-    @Override
-    public void onClose() {
-        saveMain();
-    }
+  @Override
+  public void onClose() {
+    saveMain();
+  }
 }

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing",
   "base": {
-    "item": "serverbackpacks:medium"
+    "item": "serverbackpacks:normal"
   },
   "addition": {
     "item": "minecraft:diamond"

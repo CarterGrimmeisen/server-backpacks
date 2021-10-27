@@ -1,11 +1,11 @@
 {
   "criteria": {
-    "gainSmallPack": {
+    "gainTinyPack": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:chest"
+            "item": "minecraft:bundle"
           }
         ]
       }
@@ -13,8 +13,8 @@
   },
   "rewards": {
     "recipes": [
-      "smallpack",
-      "mediumpack",
+      "tinypack",
+      "normalpack",
       "largepack",
       "enderpack",
       "globalpack"
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "gainSmallPack"
+      "gainTinyPack"
     ]
   ]
 }

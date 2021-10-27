@@ -8,16 +8,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 
 public class GlobalBackpackGui extends SimpleGui {
-    public GlobalBackpackGui(ServerPlayerEntity player) {
-        super(ScreenHandlerType.GENERIC_9X3, player, false);
-        setTitle(new TranslatableText("Global Backpack"));
-        fillChest();
-        open();
-    }
+  public GlobalBackpackGui(ServerPlayerEntity player) {
+    super(ScreenHandlerType.GENERIC_9X3, player, false);
+    setTitle(new TranslatableText("Global Backpack"));
+    fillChest();
+    open();
+  }
 
-    public void fillChest() {
-        Inventory inventory = Entrypoint.getInventory();
-        for (int i = 0; i < 27; i++)
-            setSlotRedirect(i, new Slot(inventory, i, i, 0));
-    }
+  public void fillChest() {
+    Inventory inventory = Entrypoint.getInventory();
+    for (int i = 0; i < 27; i++)
+      setSlotRedirect(i, new Slot(inventory, i, i, 0));
+  }
 }
