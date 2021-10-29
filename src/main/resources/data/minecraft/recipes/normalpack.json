@@ -1,10 +1,20 @@
 {
-  "type": "minecraft:smithing",
-  "base": {
-    "item": "serverbackpacks:tiny"
-  },
-  "addition": {
-    "item": "minecraft:iron_ingot"
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " i ",
+    "LtL",
+    "LLL"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "t": {
+      "item": "serverbackpacks:tiny"
+    }
   },
   "result": {
     "item": "serverbackpacks:normal"

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:bundle"
+            "item": "minecraft:chest"
           }
         ]
       }
@@ -15,9 +15,7 @@
     "recipes": [
       "tinypack",
       "normalpack",
-      "largepack",
-      "enderpack",
-      "globalpack"
+      "largepack"
     ]
   },
   "requirements": [

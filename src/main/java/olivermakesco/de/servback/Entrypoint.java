@@ -3,7 +3,6 @@ package olivermakesco.de.servback;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
@@ -11,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.WorldSavePath;
@@ -31,10 +29,6 @@ public class Entrypoint implements ModInitializer {
       Item item = new BackpackItem(new FabricItemSettings(), i);
       Registry.register(Registry.ITEM, id, item);
     }
-    Registry.register(Registry.ITEM, new Identifier("serverbackpacks", "ender"),
-        new EnderBackpackItem(new FabricItemSettings()));
-    Registry.register(Registry.ITEM, new Identifier("serverbackpacks", "global"),
-        new GlobalBackpackItem(new FabricItemSettings()));
 
     ServerLifecycleEvents.SERVER_STARTING.register((s) -> {
       server = s;

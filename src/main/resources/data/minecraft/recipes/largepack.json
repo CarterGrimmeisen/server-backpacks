@@ -1,10 +1,20 @@
 {
-  "type": "minecraft:smithing",
-  "base": {
-    "item": "serverbackpacks:normal"
-  },
-  "addition": {
-    "item": "minecraft:diamond"
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "LnL",
+    "LLL"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:diamond"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "n": {
+      "item": "serverbackpacks:normal"
+    }
   },
   "result": {
     "item": "serverbackpacks:large"
