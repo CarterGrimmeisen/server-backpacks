@@ -5,11 +5,11 @@ import eu.pb4.polymer.resourcepack.ResourcePackUtils;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
-public class BackpackItem extends BaseBackpackItem {
+public class LargeBackpackItem extends BaseBackpackItem {
   private final CMDInfo model = ResourcePackUtils.requestCustomModelData(Items.BUNDLE,
-      new Identifier("serverbackpacks", "item/normal"));
+      new Identifier("serverbackpacks", "item/large"));
 
-  public BackpackItem(Settings settings) {
+  public LargeBackpackItem(Settings settings) {
     super(settings);
   }
 
@@ -20,6 +20,6 @@ public class BackpackItem extends BaseBackpackItem {
 
   @Override
   protected int getSlots() {
-    return 9;
+    return 18;
   }
 }

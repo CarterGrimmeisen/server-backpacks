@@ -11,6 +11,6 @@ public class BackpackSlot extends Slot {
 
   @Override
   public boolean canInsert(ItemStack stack) {
-    return !(stack.getItem() instanceof BackpackItem);
+    return !(stack.getItem() instanceof BaseBackpackItem);
   }
 }

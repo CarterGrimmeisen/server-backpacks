@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "serverbackpacks:item/tiny"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "filled": 0.0000001
+      },
+      "model": "serverbackpacks:item/tiny_filled"
+    }
+  ]
+}

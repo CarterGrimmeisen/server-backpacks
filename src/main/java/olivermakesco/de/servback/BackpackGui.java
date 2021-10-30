@@ -17,22 +17,23 @@ public class BackpackGui extends SimpleGui {
 
   public BackpackGui(ServerPlayerEntity player, int slots, ItemStack stack) {
     super(getHandler(slots), player, false);
-    open();
     this.slots = slots;
     this.stack = stack;
-    setTitle(stack.getName());
+    this.setTitle(stack.getName());
+
     NbtCompound nbt = stack.getOrCreateNbt();
     DefaultedList<ItemStack> list = DefaultedList.ofSize(slots + 1, ItemStack.EMPTY);
     list.set(slots, stack);
     Inventories.readNbt(nbt, list);
     inventory = new SimpleInventory(list.toArray(ItemStack[]::new));
-    fillChest();
-    for (int i = 0; i < 9; i++) {
-      ItemStack invStack = player.getInventory().getStack(i);
-      if (invStack.equals(stack)) {
+
+    for (int i = 0; i < slots; i++)
+      setSlotRedirect(i, new BackpackSlot(inventory, i, i, 0));
+
+    open();
+    for (int i = 0; i < 9; i++)
+      if (player.getInventory().getStack(i).equals(stack))
         screenHandler.setSlot(slots + 27 + i, new NopSlot(inventory, slots, slots, 0));
-      }
-    }
   }
 
   public static ScreenHandlerType<?> getHandler(int slots) {
@@ -44,12 +45,8 @@ public class BackpackGui extends SimpleGui {
     };
   }
 
-  public void fillChest() {
-    for (int i = 0; i < slots; i++)
-      setSlotRedirect(i, new BackpackSlot(inventory, i, i, 0));
-  }
-
-  public void saveMain() {
+  @Override
+  public void onClose() {
     DefaultedList<ItemStack> inv = DefaultedList.ofSize(slots, ItemStack.EMPTY);
     for (int i = 0; i < slots; i++) {
       ItemStack stack = getSlotRedirect(i).getStack();
@@ -58,10 +55,5 @@ public class BackpackGui extends SimpleGui {
     NbtCompound root = stack.getNbt();
     NbtCompound newNbt = Inventories.writeNbt(root, inv);
     stack.setNbt(newNbt);
-  }
-
-  @Override
-  public void onClose() {
-    saveMain();
   }
 }

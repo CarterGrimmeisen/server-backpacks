@@ -1,0 +1,6 @@
+{
+  "parent": "item/bundle",
+  "textures": {
+    "layer0": "serverbackpacks:item/large_filled"
+  }
+}
